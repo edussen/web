@@ -7,8 +7,8 @@
 	$number = $_POST['number'];
 
 	// Database connection
-	$conn = new mysqli('localhost','root','','test');
-	if($conn->connect_error){
+	$conn = new mysqli('becigr98zqzjtnpmpmzh-mysql.services.clever-cloud.com','us7mkj5n47qvl4xa','e8nAb9JtT27dpsilaCMr','becigr98zqzjtnpmpmzh');
+	if($conn->connect_error){   
 		echo "$conn->connect_error";
 		die("Connection Failed : ". $conn->connect_error);
 	} else {
