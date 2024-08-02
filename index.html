@@ -679,7 +679,7 @@
 </head>
 
 <body>
-	<div class="overlay">
+	<div class="overlay" id="spiner" style="display: '';">
 		<div class="loading-spinner"></div>
 	</div>
 	<header>
@@ -863,8 +863,8 @@
 
 				</div>
 				<div class="form-actions">
-					<button id="vincular" class="btn-save">VINCULAR</button>
-					<button id="desvincular" style="display: none;" class="btn-close">DESVINCULAR</button>
+					<button id="vincular" class="btn-save" onclick="clickopen()">VINCULAR</button>
+					<button id="desvincular" style="display: none;" class="btn-close" onclick="clickopen()">DESVINCULAR</button>
 
 				</div>
 				<form method="post" name="contact-form">
@@ -1050,7 +1050,8 @@
 
 						</div>
 						<div class="form-actions">
-							<button class="btn-save">CREAR</button>
+							<button class="btn-save" id="crearr" onclick="clickopen()">CREAR</button>
+
 						</div>
 						<div class="button-container">
 						</div>
@@ -1068,6 +1069,12 @@
 		<li class="menu-item"><i class="fa fa-tag" aria-hidden="true"></i><div class="content-row"> <span class="Conecy">Cuaderno</span><span class="Conect">Precio: </span><span class="Conect">Cantidad: </span></li>--->
 			</div>
 		</div>
+
+<script>
+    function clickopen(){
+       
+    }
+</script>
 
 		<script>
 			const scriptURLl = 'https://script.google.com/macros/s/AKfycbxazGkKiOI0hm2p4ZFAf6LreBXyEBfGnIneEnbvokWT3s8ulmRPcXPh5WLCNxaVmWVbQQ/exec'
@@ -1146,6 +1153,8 @@
 			const vincular = document.getElementById("vincular")
 			const desvincular = document.getElementById("desvincular")
 			const spreadsheetIdInput1 = document.getElementById('spreadsheetId')
+            const spiner = document.getElementById('spiner'); // Spinner overlay
+			const crearr = document.getElementById("crearr")
 
 			desvincular.addEventListener('click', () => {
 				formFields.style.display = 'none'
@@ -1157,10 +1166,9 @@
 				spreadsheetIdInput1.value = ''
 			})
 			vincular.addEventListener('click', () => {
-				vincular.style.display = 'none'
-				document.querySelector('.overlay').style.display = '';
 				const spreadsheetId = spreadsheetIdInput.value
 				if (spreadsheetId) {
+                    document.getElementById('spiner').style.display = '';
 					fetch(`${scriptURL}?validateId=true&spreadsheetId=${spreadsheetId}`)
 						.then(response => response.json())
 						.then(data => {
@@ -1170,6 +1178,7 @@
 									fetch(`${scriptURL}?getMaxCodigoProducto=true&spreadsheetId=${spreadsheetId}`)
 										.then(response => response.json())
 										.then(data => {
+
 											if (data.result === 'success') {
 												formFields.style.display = 'block'
 												desvincular.style.display = ''
@@ -1180,9 +1189,9 @@
 												codigoProductoInput.value = data.newCodigoProducto
 												spreadsheetIdInput1.value = spreadsheetIdInput.value
 
-												document.querySelector('.overlay').style.display = 'none';
+												document.getElementById('spiner').style.display = 'none';
 											} else {
-												document.querySelector('.overlay').style.display = 'none';
+												document.getElementById('spiner').style.display = 'none';
 
 												formFields.style.display = 'none'
 												alert('Error generating product code')
@@ -1190,45 +1199,43 @@
 										})
 
 										.catch(error => console.error('Error!', error.message))
-									document.querySelector('.overlay').style.display = 'none';
+                                        document.getElementById('spiner').style.display = 'none';
 
 								} else {
 									formFields.style.display = 'none'
-									document.querySelector('.overlay').style.display = 'none';
+                                    document.getElementById('spiner').style.display = 'none';
 
 									alert('Please validate the Spreadsheet ID first')
 								}
 							} else {
 								formFields.style.display = 'none'
-								document.querySelector('.overlay').style.display = 'none';
+                                document.getElementById('spiner').style.display = 'none';
 
 								alert('Invalid Spreadsheet ID')
 							}
 						})
 						.catch(error => console.error('Error!', error.message))
-					document.querySelector('.overlay').style.display = 'none';
+                        document.getElementById('spiner').style.display = 'none';
 
 				} else {
 					formFields.style.display = 'none'
-					document.querySelector('.overlay').style.display = 'none';
+                    document.getElementById('spiner').style.display = 'none';
 
 					alert('Please enter a Spreadsheet ID')
 				}
 			})
 
-
 			form.addEventListener('submit', e => {
+                crearr.style.display = 'none'
+                document.getElementById('spiner').style.display = '';
 				e.preventDefault()
 				fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-					.then(response => alert("Thank you! your form is submitted successfully."))
+					.then(response => alert("Su producto ha sido creado exitosamente!"))
 					.then(() => { window.location.reload(); })
 					.catch(error => console.error('Error!', error.message))
 			})
 
 		</script>
-
-		<!-- REDIRIGIR A HOME-->
-
 
 		<!-- SESION LOGIN VERIFIC-->
 		<script>
