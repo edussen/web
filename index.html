@@ -1157,6 +1157,7 @@
 				spreadsheetIdInput1.value = ''
 			})
 			vincular.addEventListener('click', () => {
+				vincular.style.display = 'none'
 				document.querySelector('.overlay').style.display = '';
 				const spreadsheetId = spreadsheetIdInput.value
 				if (spreadsheetId) {
