@@ -568,14 +568,26 @@
 
 		.form-group input,
 		.form-group select {
-			/*box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);*/
-
 			width: calc(100% - 12px);
 			padding: 8px;
+			padding-right: 30px;
+			/* Espacio para el checkbox */
 			box-sizing: border-box;
 			border: 1px solid #ccc;
 			border-radius: 4px;
 			background-color: white;
+		}
+
+		.input-container {
+			position: relative;
+			width: calc(100% - 12px);
+		}
+
+		.input-container input[type="checkbox"] {
+			position: absolute;
+			right: 18px;
+			top: 43%;
+			transform: translateY(-50%);
 		}
 
 		.form-group-half {
@@ -675,10 +687,73 @@
 		.navbar a.active::after {
 			width: 100%;
 		}
+
+		#error-container {
+			position: fixed;
+			top: 20px;
+			right: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-end;
+			z-index: 10000;
+			/* Asegurar que las notificaciones estén en la parte superior */
+		}
+
+		.error-message {
+			padding: 15px 25px;
+			/* Aumentar el relleno */
+			border-radius: 8px;
+			/* Aumentar el radio de borde */
+			margin-top: 15px;
+			/* Aumentar el espacio entre notificaciones */
+			opacity: 0;
+			animation: slideIn 0.5s ease forwards, fadeOut 2s 3.5s ease forwards;
+			/* Animaciones de entrada y salida */
+			font-size: 16px;
+			/* Aumentar el tamaño del texto */
+		}
+
+		.error-message.error {
+			background-color: #ff6666;
+			color: #ffffff;
+		}
+
+		.error-message.warning {
+			background-color: #ffcc66;
+			color: #333333;
+		}
+
+		.error-message.success {
+			background-color: #66cc66;
+			color: #ffffff;
+		}
+
+		@keyframes slideIn {
+			from {
+				transform: translateY(-50px);
+				opacity: 0;
+			}
+
+			to {
+				transform: translateY(0);
+				opacity: 1;
+			}
+		}
+
+		@keyframes fadeOut {
+			from {
+				opacity: 1;
+			}
+
+			to {
+				opacity: 0;
+			}
+		}
 	</style>
 </head>
 
 <body>
+	<div id="error-container"></div>
 	<div class="overlay" id="spiner" style="display: '';">
 		<div class="loading-spinner"></div>
 	</div>
@@ -709,6 +784,7 @@
 		</div>
 
 	</header>
+
 	<div id="divOculto">
 		<div id="contenido">
 			<div class="button-container2">
@@ -810,6 +886,8 @@
 
 
 	</div> <!--FINAL-->
+	<div id="error-container">
+	</div>
 
 	<div class="container">
 		<div class="menu-container" id="menuContainer">
@@ -840,6 +918,7 @@
 		</div>
 
 		<div class="content-container" id="contentcontainer">
+
 			<div class="contenedor">
 				<i class="icono fa fa-box" aria-hidden="true"></i>
 				<div class="textos">
@@ -860,8 +939,8 @@
 						<div class="form-group form-group-half">
 							<label for="spreadsheetid">Spreadsheet ID<h21 style="color: red;">*</h21></label>
 							<input type="text" id="spreadsheetId2" name="spreadsheetId2">
-							<label id="vinculadoa" style="padding-top: 20px;display: none;">Vinculado a
-								<i><b>"Inventario #1 (Almacen Zharely)"</b></i></label>
+							<label id="vinculadoa" style="padding-top: 20px;display: none;">Vinculado a<i><b>"Inventario
+										#1 (Almacen Zharely)"</b></i></label>
 						</div>
 
 					</div>
@@ -878,27 +957,39 @@
 					<input type="text" name="spreadsheetId" id="spreadsheetId" style="display: none;"
 						placeholder="Spreadsheet ID (obligatorio)">
 					<div id="openyesif" style="display: none;">
+
 						<p style="margin-top: 25px;" class="menuitem"><b>INFORMACIÓN GENERAL</b></p>
+						<label id="vinculadoaa" style="margin-top: 25px;
+						color: #1b68a0;
+						margin-left: 20px;
+						margin-bottom: 30px;
+						margin-top: 1px;">Ultimo producto: <b>Inventario #1 (Almacen Zharely)</b></label>
 						<div style="background-color:#EDF5FD;padding:25px;margin-bottom:10px;">
 
 							<div class="form-row">
 								<div style="width: 90%;" class="form-group ">
 									<label for="nombre">Nombre del producto<h21 style="color: red;">*</h21></label>
-									<input sytype="text" id="nombre" name="Nombre del Producto / Servicio (obligatorio)"
-										required>
+									<div class="input-container">
+										<input type="text" id="nombre"
+											name="Nombre del Producto / Servicio (obligatorio)">
+										<input type="checkbox" id="checkboxname">
+									</div>
 								</div>
 								<div class="form-group form-group-half">
 									<label for="codigoProducto">Código<h21 style="color: red;">*</h21></label>
-									<input type="text" id="codigoProducto" name="Código del Producto (obligatorio)"
-										required>
+									<div class="input-container">
+										<input type="text" id="codigoProducto" name="Código del Producto (obligatorio)"
+											required>
+										<input type="checkbox" id="checkboxcd" checked disabled>
+									</div>
 								</div>
 							</div>
 
 							<div class="form-row">
 
 								<div class="form-group form-group-half">
-									<label for="tipo-perfil">Grupo de inventario<h21 style="color: red;">*</h21></label>
-									<select id="tipo-perfil" name="Grupo de Inventarios / Servicios (obligatorio)"
+									<label for="tipo-grupo">Grupo de inventario<h21 style="color: red;">*</h21></label>
+									<select id="tipo-grupo" name="Grupo de Inventarios / Servicios (obligatorio)"
 										required>
 										<option value="" disabled selected>Seleccione grupo de inventario</option>
 										<option value="1-Papeleria (Gomez)">Papeleria</option>
@@ -943,7 +1034,10 @@
 								</div>
 								<div class="form-group form-group-half">
 									<label for="codigodebarras">Código de barras</label>
-									<input type="text" id="codigodebarras" name="Código de Barras">
+									<div class="input-container">
+										<input type="text" id="codigodebarras" name="Código de Barras">
+										<input type="checkbox" id="checkbox" disabled>
+									</div>
 								</div>
 							</div>
 
@@ -953,8 +1047,11 @@
 
 							<div class="form-row">
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio base<h21 style="color: red;">*</h21></label>
-									<input sytype="text" id="nombre" name="Precio de venta 1" required>
+									<label for="preciov">Precio base<h21 style="color: red;">*</h21></label>
+									<div class="input-container">
+										<input type="text" id="preciov" name="Precio de venta 1" required="">
+										<input type="checkbox" id="checkboxprecio">
+									</div>
 								</div>
 								<div class="form-group form-group-half">
 									<label for="codigoProducto">Impuesto<h21 style="color: red;">*</h21></label>
@@ -987,54 +1084,88 @@
 
 
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 2</label>
-									<input sytype="text" id="nombre" name="Precio de venta 2">
+									<label for="preciov2">Precio 2</label>
+									<div class="input-container">
+										<input type="text" id="preciov2" name="Precio de venta 2">
+										<input type="checkbox" id="checkboxprecio2">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 3</label>
-									<input sytype="text" id="nombre" name="Precio de venta 3">
+									<label for="preciov3">Precio 3</label>
+									<div class="input-container">
+										<input type="text" id="preciov3" name="Precio de venta 3">
+										<input type="checkbox" id="checkboxprecio3">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 4</label>
-									<input sytype="text" id="nombre" name="Precio de venta 4">
+									<label for="preciov4">Precio 4</label>
+									<div class="input-container">
+										<input type="text" id="preciov4" name="Precio de venta 4">
+										<input type="checkbox" id="checkboxprecio4">
+									</div>
+
 								</div>
 
 							</div>
 							<div class="form-row">
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 5</label>
-									<input sytype="text" id="nombre" name="Precio de venta 5">
+									<label for="preciov5">Precio 5</label>
+									<div class="input-container">
+										<input type="text" id="preciov5" name="Precio de venta 5">
+										<input type="checkbox" id="checkboxprecio5">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 6</label>
-									<input sytype="text" id="nombre" name="Precio de venta 6">
+									<label for="preciov6">Precio 6</label>
+									<div class="input-container">
+										<input type="text" id="preciov6" name="Precio de venta 6">
+										<input type="checkbox" id="checkboxprecio6">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 7</label>
-									<input sytype="text" id="nombre" name="Precio de venta 7">
+									<label for="preciov7">Precio 7</label>
+									<div class="input-container">
+										<input type="text" id="preciov7" name="Precio de venta 7">
+										<input type="checkbox" id="checkboxprecio7">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 8</label>
-									<input sytype="text" id="nombre" name="Precio de venta 8">
+									<label for="preciov8">Precio 8</label>
+									<div class="input-container">
+										<input type="text" id="preciov8" name="Precio de venta 8">
+										<input type="checkbox" id="checkboxprecio8">
+									</div>
 								</div>
 
 							</div>
 							<div class="form-row">
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 9</label>
-									<input sytype="text" id="nombre" name="Precio de venta 9">
+									<label for="preciov9">Precio 9</label>
+									<div class="input-container">
+										<input type="text" id="preciov9" name="Precio de venta 9">
+										<input type="checkbox" id="checkboxprecio9">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 10</label>
-									<input sytype="text" id="nombre" name="Precio de venta 10">
+									<label for="preciov10">Precio 10</label>
+									<div class="input-container">
+										<input type="text" id="preciov10" name="Precio de venta 10">
+										<input type="checkbox" id="checkboxprecio10">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 11</label>
-									<input sytype="text" id="nombre" name="Precio de venta 11">
+									<label for="preciov11">Precio 11</label>
+									<div class="input-container">
+										<input type="text" id="preciov11" name="Precio de venta 11">
+										<input type="checkbox" id="checkboxprecio11">
+									</div>
 								</div>
 								<div style="width: 90%;" class="form-group ">
-									<label for="nombre">Precio 12</label>
-									<input sytype="text" id="nombre" name="Precio de venta 12">
+									<label for="preciov12">Precio 12</label>
+									<div class="input-container">
+										<input type="text" id="preciov12" name="Precio de venta 12">
+										<input type="checkbox" id="checkboxprecio12">
+									</div>
 								</div>
 
 							</div>
@@ -1087,7 +1218,17 @@
 			const scriptURLl = 'https://script.google.com/macros/s/AKfycbxazGkKiOI0hm2p4ZFAf6LreBXyEBfGnIneEnbvokWT3s8ulmRPcXPh5WLCNxaVmWVbQQ/exec'
 			var TokenVerified = localStorage.getItem("Token");
 			var planillaname = localStorage.getItem("planillaname");
+			var Productover = localStorage.getItem("Producto");
 
+			if (Productover === null || Productover.trim() === "") {
+				document.getElementById('vinculadoaa').style.display = 'none';
+
+			} else {
+				document.getElementById('vinculadoaa').style.display = '';
+				document.getElementById('vinculadoaa').innerHTML = 'Último producto: <b>' + Productover + '</b>';
+
+
+			}
 			if (TokenVerified === null || TokenVerified.trim() === "") {
 				window.onload = function () {
 					// Simula una carga de 3 segundos (borra esto en tu aplicación real)
@@ -1097,6 +1238,19 @@
 					}, 2000);
 				};
 			} else {
+				var Productover = localStorage.getItem("Producto");
+
+				if (Productover === null || Productover.trim() === "") {
+					document.getElementById('vinculadoaa').style.display = 'none';
+
+				} else {
+					document.getElementById('vinculadoaa').style.display = '';
+					document.getElementById('vinculadoaa').innerHTML = 'Último producto: <b>' + Productover + '</b>';
+
+
+				}
+
+
 				const spreadsheetIdInput = document.getElementById('spreadsheetId2')
 				const vincular = document.getElementById('vincular')
 				const desvincular = document.getElementById('desvincular')
@@ -1129,19 +1283,20 @@
 
 										} else {
 											formFields.style.display = 'none'
-											alert('Error generating product code')
+											mostrarError("Error generating product code", "error")
+
 										}
 									})
 									.catch(error => console.error('Error!', error.message))
 							} else {
 								formFields.style.display = 'none'
+								mostrarError("Please validate the Spreadsheet ID first", "warning")
 
-								alert('Please validate the Spreadsheet ID first')
 							}
 						} else {
 							formFields.style.display = 'none'
+							mostrarError("Invalid Spreadsheet ID", "error")
 
-							alert('Invalid Spreadsheet ID')
 						}
 					})
 					.catch(error => console.error('Error!', error.message))
@@ -1150,8 +1305,10 @@
 
 		</script>
 
+
+
 		<script>
-			const scriptURL = 'https://script.google.com/macros/s/AKfycbxazGkKiOI0hm2p4ZFAf6LreBXyEBfGnIneEnbvokWT3s8ulmRPcXPh5WLCNxaVmWVbQQ/exec'
+			const scriptURL = 'https://script.google.com/macros/s/AKfycbxEtfCWTEyFykabRIZHq3_B5Svi414nDWLF1eHjzOJxd2-BYtBtfe8s4p0vcXnojRrM/exec'
 
 			const form = document.forms['contact-form']
 			const spreadsheetIdInput = document.getElementById('spreadsheetId2')
@@ -1171,6 +1328,8 @@
 				localStorage.removeItem("Token");
 				spreadsheetIdInput.value = ''
 				spreadsheetIdInput1.value = ''
+				mostrarError("¡Tu Google Spreadsheet ha sido desconectado exitosamente!", "success")
+
 			})
 			vincular.addEventListener('click', () => {
 				const spreadsheetId = spreadsheetIdInput.value
@@ -1187,6 +1346,7 @@
 										.then(data => {
 
 											if (data.result === 'success') {
+												mostrarError("¡Google Spreadsheet conectado exitosamente!", "success")
 												formFields.style.display = 'block'
 												desvincular.style.display = ''
 												vincular.style.display = 'none'
@@ -1201,7 +1361,7 @@
 												document.getElementById('spiner').style.display = 'none';
 
 												formFields.style.display = 'none'
-												alert('Error generating product code')
+												mostrarError("No puedes utilizar este Google Spreadsheet.", "error")
 											}
 										})
 
@@ -1211,14 +1371,15 @@
 								} else {
 									formFields.style.display = 'none'
 									document.getElementById('spiner').style.display = 'none';
+									mostrarError("Por favor verifica la privacidad de tu Spreadsheet ID", "warning")
 
-									alert('Please validate the Spreadsheet ID first')
 								}
 							} else {
 								formFields.style.display = 'none'
 								document.getElementById('spiner').style.display = 'none';
 
-								alert('Invalid Spreadsheet ID')
+								mostrarError("El Spreadsheet ID es invalido.", "error")
+
 							}
 						})
 						.catch(error => console.error('Error!', error.message))
@@ -1228,7 +1389,7 @@
 					formFields.style.display = 'none'
 					document.getElementById('spiner').style.display = 'none';
 
-					alert('Please enter a Spreadsheet ID')
+					mostrarError("Indroduce tu Spreadsheet ID", "warning")
 				}
 			})
 			form.addEventListener('submit', e => {
@@ -1237,7 +1398,19 @@
 				const scriptURLs = 'https://script.google.com/macros/s/AKfycbzi6UP0csS44_sYJFVGZEgj1DALHrCCVdSnMLa4pRUvi4tVjySHJqqJLth6B8EGwCm3/exec';
 				const spreadsheetIdInput = document.getElementById('spreadsheetId2');
 				const spreadsheetId = spreadsheetIdInput.value;
-
+				const checkboxnamee = document.getElementById('checkboxname');
+				const checkboxprecioo = document.getElementById('checkboxprecio');
+				const checkboxprecio2o = document.getElementById('checkboxprecio2');
+				const checkboxprecio3o = document.getElementById('checkboxprecio3');
+				const checkboxprecio4o = document.getElementById('checkboxprecio4');
+				const checkboxprecio5o = document.getElementById('checkboxprecio5');
+				const checkboxprecio6o = document.getElementById('checkboxprecio6');
+				const checkboxprecio7o = document.getElementById('checkboxprecio7');
+				const checkboxprecio8o = document.getElementById('checkboxprecio8');
+				const checkboxprecio9o = document.getElementById('checkboxprecio9');
+				const checkboxprecio10o = document.getElementById('checkboxprecio10');
+				const checkboxprecio11o = document.getElementById('checkboxprecio11');
+				const checkboxprecio12o = document.getElementById('checkboxprecio12');
 				// Mostrar el spinner y ocultar el botón de envío
 				document.getElementById('spiner').style.display = '';
 				crearr.style.display = 'none';
@@ -1253,7 +1426,7 @@
 						const productoExistente = data.data.some(producto => producto['Código del Producto (obligatorio)'] === productoCodigo);
 
 						if (productoExistente) {
-							alert("Ups, parece que el código utilizado ya está en uso.");
+							mostrarError("Ups, parece que el código utilizado ya está en uso.", "error")
 							const spreadsheetId = spreadsheetIdInput.value
 							if (spreadsheetId) {
 								fetch(`${scriptURL}?getMaxCodigoProducto=true&spreadsheetId=${spreadsheetId}`)
@@ -1271,23 +1444,109 @@
 										}
 									})
 									.catch(error => console.error('Error!', error.message))
-									crearr.style.display = ''; // Volver a mostrar el botón de envío
-									crearr.disabled = false;
+								crearr.style.display = ''; // Volver a mostrar el botón de envío
+								crearr.disabled = false;
 
-							} 
+							}
 
 						} else {
-							// Enviar los datos del formulario
+
 							fetch(scriptURL, {
 								method: 'POST',
 								body: new FormData(form)
 							})
 								.then(response => response.json())
-								.then(() => {
-									alert("¡Su producto ha sido creado exitosamente!");
-									window.location.reload(); // Recargar la página
+								.then(result => {
+									if (result.result === 'success') {
+										mostrarError("¡Su producto ha sido creado exitosamente!", "success")
+										//window.location.reload();  Recargar la página
+										localStorage.setItem("Producto", document.getElementById('codigoProducto').value+"- " +document.getElementById('nombre').value);
+										fetch(`${scriptURL}?getMaxCodigoProducto=true&spreadsheetId=${spreadsheetId}`)
+											.then(response => response.json())
+											.then(data => {
+												if (data.result === 'success') {
+
+
+													codigoProductoInput.value = data.newCodigoProducto
+													crearr.style.display = ''; // Volver a mostrar el botón de envío
+													crearr.disabled = false;
+													var Productover = localStorage.getItem("Producto");
+
+													if (Productover === null || Productover.trim() === "") {
+														document.getElementById('vinculadoaa').style.display = 'none';
+
+													} else {
+														document.getElementById('vinculadoaa').style.display = '';
+														document.getElementById('vinculadoaa').innerHTML = 'Último producto: <b>' + Productover + '</b>';
+
+
+													}
+													if (!checkboxnamee.checked) {
+														document.getElementById('nombre').value = '';
+													}
+													if (!checkboxprecioo.checked) {
+														document.getElementById('preciov').value = '';
+													}
+													if (!checkboxprecio2o.checked) {
+														document.getElementById('preciov2').value = '';
+													}
+													if (!checkboxprecio3o.checked) {
+														document.getElementById('preciov3').value = '';
+													}
+													if (!checkboxprecio4o.checked) {
+														document.getElementById('preciov4').value = '';
+													}
+													if (!checkboxprecio5o.checked) {
+														document.getElementById('preciov5').value = '';
+													}
+													if (!checkboxprecio6o.checked) {
+														document.getElementById('preciov6').value = '';
+													}
+													if (!checkboxprecio7o.checked) {
+														document.getElementById('preciov7').value = '';
+													}
+													if (!checkboxprecio8o.checked) {
+														document.getElementById('preciov8').value = '';
+													}
+													if (!checkboxprecio9o.checked) {
+														document.getElementById('preciov9').value = '';
+													}
+													if (!checkboxprecio10o.checked) {
+														document.getElementById('preciov10').value = '';
+													}
+													if (!checkboxprecio11o.checked) {
+														document.getElementById('preciov11').value = '';
+													}
+													if (!checkboxprecio12o.checked) {
+														document.getElementById('preciov12').value = '';
+													}
+													document.getElementById('codigodebarras').value = '';
+
+													document.getElementById('spiner').style.display = 'none';
+
+
+												} else {
+													crearr.style.display = ''; // Volver a mostrar el botón de envío
+													crearr.disabled = false;
+													document.getElementById('spiner').style.display = 'none';
+												}
+											})
+											.catch(error => { console.error('Error!', error.message) })
+									} else {
+										// Manejar el error si el resultado es de tipo 'error'
+										alert(`Error: ${result.error}`);
+									}
 								})
-								.catch(error => console.error('Error!', error.message));
+
+								.catch(error => {
+									mostrarError("¡Ha ocurrido un error inesperado!", "error");
+									console.error('Error!', error.message)
+									crearr.style.display = ''; // Volver a mostrar el botón de envío
+									crearr.disabled = false;
+									document.getElementById('spiner').style.display = 'none';
+
+								});
+
 						}
 					})
 					.catch(error => {
@@ -1298,6 +1557,25 @@
 					});
 			});
 
+
+		</script>
+		<script>
+			function mostrarError(mensaje, tipo) {
+				var errorContainer = document.getElementById("error-container");
+
+				// Crear elemento de notificación
+				var errorElement = document.createElement("div");
+				errorElement.className = "error-message " + tipo;
+				errorElement.innerText = mensaje;
+
+				// Agregar elemento al contenedor de errores
+				errorContainer.appendChild(errorElement);
+
+				// Eliminar la notificación después de cierto tiempo
+				setTimeout(function () {
+					errorElement.remove();
+				}, 5000); // 5000 milisegundos = 5 segundos
+			}
 
 		</script>
 
