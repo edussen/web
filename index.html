@@ -819,11 +819,17 @@
 				<li class="menu-item" id="aaad"><b>Mis datos</b><i id="aadaa" class="fa fa-chevron-down"
 						aria-hidden="true"></i>
 				</li>
-				<li class="submenu-item" id="opendes"><a href="https://siigonube.siigo.com/#/reports/2000/5054?TabID=552&pTabID=1445">Lista de productos</a>
+				<li class="submenu-item" id="opendes"><a
+						href="https://siigonube.siigo.com/#/reports/2000/5054?TabID=552&pTabID=1445">Lista de
+						productos</a>
 				</li>
-				<li class="submenu-item" id="opendes2"><a href="https://siigonube.siigo.com/#/reports/2000/5349?TabID=1381">Mis ventas</a></li>
-				<li class="submenu-item" id="opendes2"><a href="https://siigonube.siigo.com/#/reports/2000/5349?TabID=1381">Mis cajas</a></li>
-				<li class="submenu-item" id="opendes2"><a href="https://siigonube.siigo.com/#/reports/2000/5349?TabID=1381">Crear productos en Siigo</a></li>
+				<li class="submenu-item" id="opendes2"><a
+						href="https://siigonube.siigo.com/#/reports/2000/5349?TabID=1381">Mis ventas</a></li>
+				<li class="submenu-item" id="opendes2"><a
+						href="https://siigonube.siigo.com/#/reports/2000/5349?TabID=1381">Mis cajas</a></li>
+				<li class="submenu-item" id="opendes2"><a
+						href="https://siigonube.siigo.com/#/reports/2000/5349?TabID=1381">Crear productos en Siigo</a>
+				</li>
 
 				<!-- <li class="menu-item"><i class="fa fa-home" aria-hidden="true"></i>Inicio</li>
             <li class="menu-item"><i class="fa fa-compass" aria-hidden="true"></i>Reportes</li>
@@ -864,7 +870,8 @@
 				</div>
 				<div class="form-actions">
 					<button id="vincular" class="btn-save" onclick="clickopen()">VINCULAR</button>
-					<button id="desvincular" style="display: none;" class="btn-close" onclick="clickopen()">DESVINCULAR</button>
+					<button id="desvincular" style="display: none;" class="btn-close"
+						onclick="clickopen()">DESVINCULAR</button>
 
 				</div>
 				<form method="post" name="contact-form">
@@ -894,11 +901,11 @@
 									<select id="tipo-perfil" name="Grupo de Inventarios / Servicios (obligatorio)"
 										required>
 										<option value="" disabled selected>Seleccione grupo de inventario</option>
-										<option value="1-Papeleria (Gomez)">Papeleria (Gomez)</option>
-										<option value="2-Ropa (Gonzalez)">Ropa (Gonzalez)</option>
-										<option value="3-Tecnologia (Celumania)">Tecnologia (Celumania)</option>
+										<option value="1-Papeleria (Gomez)">Papeleria</option>
+										<option value="2-Ropa (Gonzalez)">Ropa</option>
+										<option value="3-Tecnologia (Celumania)">Tecnologia</option>
 										<option value="4-Belleza">Belleza</option>
-										<option value="5-Cacharreria (Marinillos)">Cacharreria (Marinillos)</option>
+										<option value="5-Cacharreria (Marinillos)">Cacharreria</option>
 										<option value="6-Jugueteria (Pipe)">Jugueteria</option>
 										<option value="7-Accesorios">Accesorios</option>
 										<option value="8-Chancletas">Chancletas</option>
@@ -1070,11 +1077,11 @@
 			</div>
 		</div>
 
-<script>
-    function clickopen(){
-       
-    }
-</script>
+		<script>
+			function clickopen() {
+
+			}
+		</script>
 
 		<script>
 			const scriptURLl = 'https://script.google.com/macros/s/AKfycbxazGkKiOI0hm2p4ZFAf6LreBXyEBfGnIneEnbvokWT3s8ulmRPcXPh5WLCNxaVmWVbQQ/exec'
@@ -1153,7 +1160,7 @@
 			const vincular = document.getElementById("vincular")
 			const desvincular = document.getElementById("desvincular")
 			const spreadsheetIdInput1 = document.getElementById('spreadsheetId')
-            const spiner = document.getElementById('spiner'); // Spinner overlay
+			const spiner = document.getElementById('spiner'); // Spinner overlay
 			const crearr = document.getElementById("crearr")
 
 			desvincular.addEventListener('click', () => {
@@ -1168,7 +1175,7 @@
 			vincular.addEventListener('click', () => {
 				const spreadsheetId = spreadsheetIdInput.value
 				if (spreadsheetId) {
-                    document.getElementById('spiner').style.display = '';
+					document.getElementById('spiner').style.display = '';
 					fetch(`${scriptURL}?validateId=true&spreadsheetId=${spreadsheetId}`)
 						.then(response => response.json())
 						.then(data => {
@@ -1199,41 +1206,98 @@
 										})
 
 										.catch(error => console.error('Error!', error.message))
-                                        document.getElementById('spiner').style.display = 'none';
+									document.getElementById('spiner').style.display = 'none';
 
 								} else {
 									formFields.style.display = 'none'
-                                    document.getElementById('spiner').style.display = 'none';
+									document.getElementById('spiner').style.display = 'none';
 
 									alert('Please validate the Spreadsheet ID first')
 								}
 							} else {
 								formFields.style.display = 'none'
-                                document.getElementById('spiner').style.display = 'none';
+								document.getElementById('spiner').style.display = 'none';
 
 								alert('Invalid Spreadsheet ID')
 							}
 						})
 						.catch(error => console.error('Error!', error.message))
-                        document.getElementById('spiner').style.display = 'none';
+					document.getElementById('spiner').style.display = 'none';
 
 				} else {
 					formFields.style.display = 'none'
-                    document.getElementById('spiner').style.display = 'none';
+					document.getElementById('spiner').style.display = 'none';
 
 					alert('Please enter a Spreadsheet ID')
 				}
 			})
-
 			form.addEventListener('submit', e => {
-                crearr.style.display = 'none'
-                document.getElementById('spiner').style.display = '';
-				e.preventDefault()
-				fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-					.then(response => alert("Su producto ha sido creado exitosamente!"))
-					.then(() => { window.location.reload(); })
-					.catch(error => console.error('Error!', error.message))
-			})
+				e.preventDefault(); // Prevenir el comportamiento predeterminado del formulario
+
+				const scriptURLs = 'https://script.google.com/macros/s/AKfycbzi6UP0csS44_sYJFVGZEgj1DALHrCCVdSnMLa4pRUvi4tVjySHJqqJLth6B8EGwCm3/exec';
+				const spreadsheetIdInput = document.getElementById('spreadsheetId2');
+				const spreadsheetId = spreadsheetIdInput.value;
+
+				// Mostrar el spinner y ocultar el botón de envío
+				document.getElementById('spiner').style.display = '';
+				crearr.style.display = 'none';
+				crearr.disabled = true;
+
+				// Validar el ID de la hoja de cálculo
+				fetch(`${scriptURLs}?validateId=true&spreadsheetId=${spreadsheetId}`)
+					.then(response => response.json())
+					.then(data => {
+						const productoCodigo = parseInt(document.getElementById('codigoProducto').value, 10); // Obtener y convertir el valor del código del producto a número
+
+						// Verificar si el código del producto ya está en uso
+						const productoExistente = data.data.some(producto => producto['Código del Producto (obligatorio)'] === productoCodigo);
+
+						if (productoExistente) {
+							alert("Ups, parece que el código utilizado ya está en uso.");
+							const spreadsheetId = spreadsheetIdInput.value
+							if (spreadsheetId) {
+								fetch(`${scriptURL}?getMaxCodigoProducto=true&spreadsheetId=${spreadsheetId}`)
+									.then(response => response.json())
+									.then(data => {
+										if (data.result === 'success') {
+											codigoProductoInput.value = data.newCodigoProducto
+											crearr.style.display = ''; // Volver a mostrar el botón de envío
+											crearr.disabled = false;
+											document.getElementById('spiner').style.display = 'none';
+										} else {
+											crearr.style.display = ''; // Volver a mostrar el botón de envío
+											crearr.disabled = false;
+											document.getElementById('spiner').style.display = 'none';
+										}
+									})
+									.catch(error => console.error('Error!', error.message))
+									crearr.style.display = ''; // Volver a mostrar el botón de envío
+									crearr.disabled = false;
+
+							} 
+
+						} else {
+							// Enviar los datos del formulario
+							fetch(scriptURL, {
+								method: 'POST',
+								body: new FormData(form)
+							})
+								.then(response => response.json())
+								.then(() => {
+									alert("¡Su producto ha sido creado exitosamente!");
+									window.location.reload(); // Recargar la página
+								})
+								.catch(error => console.error('Error!', error.message));
+						}
+					})
+					.catch(error => {
+						console.error('Error al obtener los productos:', error);
+						document.getElementById('spiner').style.display = 'none'; // Ocultar el spinner si hay un error
+						crearr.style.display = ''; // Volver a mostrar el botón de envío
+						crearr.disabled = false;
+					});
+			});
+
 
 		</script>
 
