@@ -1284,6 +1284,7 @@
 										} else {
 											formFields.style.display = 'none'
 											mostrarError("Error generating product code", "error")
+											sounderror.play();
 
 										}
 									})
@@ -1291,11 +1292,13 @@
 							} else {
 								formFields.style.display = 'none'
 								mostrarError("Please validate the Spreadsheet ID first", "warning")
+								sounderror.play();
 
 							}
 						} else {
 							formFields.style.display = 'none'
 							mostrarError("Invalid Spreadsheet ID", "error")
+							sounderror.play();
 
 						}
 					})
@@ -1318,9 +1321,11 @@
 			const desvincular = document.getElementById("desvincular")
 			const spreadsheetIdInput1 = document.getElementById('spreadsheetId')
 			const spiner = document.getElementById('spiner'); // Spinner overlay
-			const crearr = document.getElementById("crearr")
+			const crearr = document.getElementById("crearr");
+			let soundsucces = new Audio('images/Success.mp3');
+			let sounderror = new Audio('images/error.mp3');
 
-			desvincular.addEventListener('click', () => {
+			desvincular.addEventListener('c	lick', () => {
 				formFields.style.display = 'none'
 				desvincular.style.display = 'none'
 				vincular.style.display = ''
@@ -1329,7 +1334,7 @@
 				spreadsheetIdInput.value = ''
 				spreadsheetIdInput1.value = ''
 				mostrarError("¡Tu Google Spreadsheet ha sido desconectado exitosamente!", "success")
-
+				soundsucces.play();
 			})
 			vincular.addEventListener('click', () => {
 				const spreadsheetId = spreadsheetIdInput.value
@@ -1346,6 +1351,7 @@
 										.then(data => {
 
 											if (data.result === 'success') {
+												soundsucces.play();
 												mostrarError("¡Google Spreadsheet conectado exitosamente!", "success")
 												formFields.style.display = 'block'
 												desvincular.style.display = ''
@@ -1361,6 +1367,8 @@
 												document.getElementById('spiner').style.display = 'none';
 
 												formFields.style.display = 'none'
+												sounderror.play();
+
 												mostrarError("No puedes utilizar este Google Spreadsheet.", "error")
 											}
 										})
@@ -1372,6 +1380,7 @@
 									formFields.style.display = 'none'
 									document.getElementById('spiner').style.display = 'none';
 									mostrarError("Por favor verifica la privacidad de tu Spreadsheet ID", "warning")
+									sounderror.play();
 
 								}
 							} else {
@@ -1379,6 +1388,7 @@
 								document.getElementById('spiner').style.display = 'none';
 
 								mostrarError("El Spreadsheet ID es invalido.", "error")
+								sounderror.play();
 
 							}
 						})
@@ -1388,6 +1398,7 @@
 				} else {
 					formFields.style.display = 'none'
 					document.getElementById('spiner').style.display = 'none';
+					sounderror.play();
 
 					mostrarError("Indroduce tu Spreadsheet ID", "warning")
 				}
@@ -1415,7 +1426,6 @@
 				document.getElementById('spiner').style.display = '';
 				crearr.style.display = 'none';
 				crearr.disabled = true;
-
 				// Validar el ID de la hoja de cálculo
 				fetch(`${scriptURLs}?validateId=true&spreadsheetId=${spreadsheetId}`)
 					.then(response => response.json())
@@ -1426,6 +1436,8 @@
 						const productoExistente = data.data.some(producto => producto['Código del Producto (obligatorio)'] === productoCodigo);
 
 						if (productoExistente) {
+							sounderror.play();
+
 							mostrarError("Ups, parece que el código utilizado ya está en uso.", "error")
 							const spreadsheetId = spreadsheetIdInput.value
 							if (spreadsheetId) {
@@ -1460,6 +1472,8 @@
 									if (result.result === 'success') {
 										mostrarError("¡Su producto ha sido creado exitosamente!", "success")
 										//window.location.reload();  Recargar la página
+										soundsucces.play();
+
 										localStorage.setItem("Producto", document.getElementById('codigoProducto').value+"- " +document.getElementById('nombre').value);
 										fetch(`${scriptURL}?getMaxCodigoProducto=true&spreadsheetId=${spreadsheetId}`)
 											.then(response => response.json())
@@ -1539,6 +1553,8 @@
 								})
 
 								.catch(error => {
+									sounderror.play();
+
 									mostrarError("¡Ha ocurrido un error inesperado!", "error");
 									console.error('Error!', error.message)
 									crearr.style.display = ''; // Volver a mostrar el botón de envío
