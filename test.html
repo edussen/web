@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticación con Siigo API</title>
+</head>
+<body>
+    <h1>Autenticación con Siigo API</h1>
+    <button id="auth-button">Autenticar</button>
+    <pre id="response"></pre>
+
+    <script>
+        document.getElementById("auth-button").addEventListener("click", async () => {
+            const url = "https://api.siigo.com/v1/products"; // Endpoint de autenticación
+            const authData = {
+                username: "eliana_mateus6@hotmail.com", // Tu username
+                access_key: "MmQ2NzA1YWItZGFkOS00NjRjLTlmNmQtOTUwNWY5NGE2ZTI1OkdpLHEsd04zaFM=" // Tu access_key
+            };
+
+            const headers = {
+                "Content-Type": "application/json",
+                "Partner-Id": "POS" // Cambiar por el nombre de tu aplicación
+            };
+
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: headers,
+                    body: JSON.stringify(authData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log("Autenticación exitosa:", data);
+
+                // Mostrar la respuesta en el elemento <pre>
+                document.getElementById("response").textContent = JSON.stringify(data, null, 2);
+            } catch (error) {
+                console.error("Error en la autenticación:", error);
+                document.getElementById("response").textContent = `Error: ${error.message}`;
+            }
+        });
+    </script>
+</body>
+</html>
